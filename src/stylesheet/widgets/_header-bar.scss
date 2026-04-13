@@ -1,19 +1,14 @@
 headerbar {
   min-height: 47px;
-  background-color: var(--headerbar-bg-color);
+  background-color: var(--color-surface-glass-secondary);
   color: var(--headerbar-fg-color);
-  box-shadow: inset 0 -1px var(--headerbar-shade-color),
-              inset  1px 0 $headerbar_border_color,
-              inset -1px 0 $headerbar_border_color;
+  border-radius: var(--radius-pill);
+  margin: 20px;
+  box-shadow: var(--shadow-refraction-light);
 
   @media (prefers-contrast: more) {
-    box-shadow: inset 0 -1px $headerbar_border_color,
-                inset  1px 0 $headerbar_border_color,
-                inset -1px 0 $headerbar_border_color;
+    box-shadow: inset 0 0 0 1px $headerbar_border_color;
   }
-
-  margin-left: -1px;
-  margin-right: -1px;
 
   @extend %toolbar;
 
@@ -59,12 +54,13 @@ headerbar {
 
     windowcontrols {
       > button {
-        min-height: 22px;
-        min-width: 22px;
-        padding: 4px;
+        min-height: 14px;
+        min-width: 14px;
+        padding: 0;
+        margin: 6px 4px;
 
         > image {
-          padding: 3px;
+          padding: 0;
         }
       }
 
@@ -87,8 +83,7 @@ window:not(.ssd-frame) > {
   }
 
   .titlebar headerbar:not(.flat) {
-    box-shadow: inset  1px 0 $headerbar_border_color,
-                inset -1px 0 $headerbar_border_color;
+    box-shadow: none;
   }
 
   headerbar.titlebar,
@@ -176,29 +171,59 @@ windowcontrols {
   border-spacing: 3px;
 
   > button {
-    min-width: 24px;
-    padding: 5px;
+    min-width: 14px;
+    min-height: 14px;
+    margin: 6px 4px;
+    padding: 0;
+    border-radius: 50%;
 
-    &:not(.raised):not(.suggested-action):not(.destructive-action):not(.opaque).image-button {
-      &, &:hover, &:active {
-        background: none;
-        box-shadow: none;
-      }
+    &, &:hover, &:active, &:checked {
+      background-image: none;
+      /* Default shadow for all buttons to look glassy */
+      box-shadow: inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.15);
+      border: none;
     }
 
     > image {
-      background-color: $button_color;
-      border-radius: 100%;
-      padding: 4px;
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
       transition: $button_transition;
-
-      @media (prefers-contrast: more) {
-        box-shadow: inset 0 0 0 1px $border_color;
-      }
+      /* Hide the symbolic icon at rest */
+      color: transparent;
     }
 
-    &:hover > image { background-color: $button_hover_color; }
-    &:active > image { background-color: $button_active_color; }
+    /* Hover reveals inner icon as a darker shadow */
+    &:hover > image {
+      color: rgba(0, 0, 0, 0.5);
+    }
+    
+    &:active > image {
+      color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* Default color if it's an unrecognized button type (prevents black empty boxes) */
+    &, &:hover, &:active, &:checked {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.close {
+      &, &:hover, &:active, &:checked { background-color: #ff5f56; }
+      &:hover { background-color: #ff3b30; }
+      &:active { background-color: #d71106; }
+    }
+
+    &.minimize {
+      &, &:hover, &:active, &:checked { background-color: #ffbd2e; }
+      &:hover { background-color: #e0a323; }
+      &:active { background-color: #c9911e; }
+    }
+
+    &.maximize {
+      &, &:hover, &:active, &:checked { background-color: #27c93f; }
+      &:hover { background-color: #20a833; }
+      &:active { background-color: #1a8f29; }
+    }
   }
 
   > .icon {

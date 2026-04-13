@@ -135,7 +135,7 @@ popover.menu {
     min-height: 32px;
     min-width: 40px;
     padding: 0 $menu_padding;
-    border-radius: $menu_radius;
+    border-radius: 8px;
     background-color: transparent;
 
     &:hover,
@@ -187,7 +187,7 @@ popover.menu {
     color: inherit;
 
     > row {
-      border-radius: $menu_radius;
+      border-radius: 8px;
       padding: 0 $menu_padding;
       min-height: 32px;
       min-width: 40px;

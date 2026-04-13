@@ -1,17 +1,15 @@
 tabbar {
   .box {
-    background-color: var(--headerbar-bg-color);
+    background: transparent;
     color: var(--headerbar-fg-color);
-    box-shadow: inset 0 -1px var(--headerbar-shade-color);
-    padding: 1px;
-    padding-top: 0;
+    box-shadow: none;
 
     @media (prefers-contrast: more) {
       box-shadow: inset 0 -1px $headerbar_border_color;
     }
 
     &:backdrop {
-      background-color: var(--headerbar-backdrop-color);
+      background-color: transparent;
       transition: background-color $backdrop_transition;
 
       > scrolledwindow,
@@ -30,7 +28,7 @@ tabbar {
 
     > tabboxchild {
       @include focus-ring($focus-state: ':focus-within:focus-visible');
-      border-radius: $button_radius;
+      border-radius: var(--radius-pill);
     }
 
     > separator {
@@ -67,10 +65,15 @@ tabbar {
     }
 
     &:selected {
-      background-color: $selected_color;
+      background-color: color-mix(in srgb, var(--headerbar-fg-color) 15%, transparent);
+      box-shadow: 0 0 2px rgba(15, 15, 15, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18), inset -0.5px -0.5px 1px 0 rgba(255, 255, 255, 0.2);
 
-      &:hover { background-color: $selected_hover_color; }
-      &:active { background-color: $selected_active_color; }
+      @media (prefers-color-scheme: light) {
+        background-color: color-mix(in srgb, var(--headerbar-fg-color) 80%, transparent);
+      }
+
+      &:hover { background-color: color-mix(in srgb, var(--headerbar-fg-color) 20%, transparent); }
+      &:active { background-color: color-mix(in srgb, var(--headerbar-fg-color) 25%, transparent); }
     }
 
     &:hover { background-color: $hover_color; }
@@ -155,16 +158,28 @@ dnd tab {
 tabbar,
 dnd {
   tab {
-    min-height: 26px;
-    padding: 4px;
-    border-radius: $button_radius;
+    min-height: 28px;
+    padding: 4px 16px;
+    border-radius: var(--radius-pill);
 
     button.image-button {
       padding: 0;
-      margin: 0;
-      min-width: 24px;
-      min-height: 24px;
-      border-radius: 99px;
+      margin-left: 6px;
+      min-width: 14px;
+      min-height: 14px;
+      border-radius: var(--radius-pill);
+      background-color: transparent;
+
+      /* Standard text color for the X icon */
+      color: inherit;
+
+      &:hover {
+        background-color: $hover_color;
+      }
+
+      &:active {
+        background-color: $active_color;
+      }
     }
 
     indicator {

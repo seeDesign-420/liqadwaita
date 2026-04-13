@@ -44,3 +44,14 @@ $_linked_widgets: join($_linked_widgets, $deprecated_linked_widgets);
     }
   }
 }
+
+/* Liquid Glass: image-only buttons stay circular even inside .linked */
+.linked:not(.vertical) > button.image-button,
+.linked:not(.vertical) > menubutton.image-button > button {
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  margin-left: 2px;
+  margin-right: 0;
+}

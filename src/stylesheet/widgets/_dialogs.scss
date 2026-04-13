@@ -74,18 +74,14 @@ floating-sheet {
   }
 
   > sheet {
-    border-radius: $dialog_radius;
-    box-shadow: 0 0 14px 2px RGB(0 0 6 / 3%),
-                0 0 5px 2px RGB(0 0 6 / 10%),
-                0 0 0 1px RGB(0 0 0 / 5%);
-    outline: 1px solid $window_outline_color;
+    border-radius: var(--radius-panel);
+    box-shadow: var(--shadow-refraction-heavy);
+    outline: none;
     outline-offset: -1px;
 
     @media (prefers-contrast: more) {
-      outline-color: $window_outline_color_hc;
-      box-shadow: 0 0 14px 2px RGB(0 0 6 / 3%),
-                  0 0 5px 2px RGB(0 0 6 / 10%),
-                  0 0 0 1px RGB(0 0 0 / 80%);
+      outline: 1px solid $window_outline_color_hc;
+      box-shadow: none;
     }
   }
 }
@@ -115,7 +111,7 @@ dialog-host > dialog.background {
   background: none;
 
   sheet {
-    background-color: var(--window-bg-color);
+    background-color: var(--color-surface-glass-primary);
     color: var(--window-fg-color);
   }
 }

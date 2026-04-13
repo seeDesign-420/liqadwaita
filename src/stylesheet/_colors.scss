@@ -45,15 +45,15 @@
 @define-color headerbar_darker_shade_color RGB(0 0 6 / 12%);
 
 // Split pane views
-@define-color sidebar_bg_color #ebebed;
+@define-color sidebar_bg_color rgba(235, 235, 237, 0.75);
 @define-color sidebar_fg_color RGB(0 0 6 / 80%);
-@define-color sidebar_backdrop_color #f2f2f4;
+@define-color sidebar_backdrop_color rgba(242, 242, 244, 0.80);
 @define-color sidebar_shade_color RGB(0 0 6 / 7%);
 @define-color sidebar_border_color RGB(0 0 6 / 7%);
 
-@define-color secondary_sidebar_bg_color #f3f3f5;
+@define-color secondary_sidebar_bg_color rgba(243, 243, 245, 0.70);
 @define-color secondary_sidebar_fg_color RGB(0 0 6 / 80%);
-@define-color secondary_sidebar_backdrop_color #f6f6fa;
+@define-color secondary_sidebar_backdrop_color rgba(246, 246, 250, 0.75);
 @define-color secondary_sidebar_shade_color RGB(0 0 6 / 7%);
 @define-color secondary_sidebar_border_color RGB(0 0 6 / 7%);
 
@@ -97,47 +97,47 @@
   @define-color warning_color oklab(from @warning_bg_color max(l, 0.85) a b);
   @define-color error_color oklab(from @error_bg_color max(l, 0.85) a b);
 
-  // Window
-  @define-color window_bg_color #222226;
+  // Window — solid opaque floor; sidebar glass is the only translucent layer
+  @define-color window_bg_color #000000;
   @define-color window_fg_color white;
 
-  // Views - e.g. text view or tree view
-  @define-color view_bg_color #1d1d20;
+  // Views — solid opaque to anchor content
+  @define-color view_bg_color #000000;
   @define-color view_fg_color white;
 
   // Header bar, search bar, tab bar
-  @define-color headerbar_bg_color #2e2e32;
+  @define-color headerbar_bg_color #0a0a0c;
   @define-color headerbar_fg_color white;
   @define-color headerbar_border_color white;
   @define-color headerbar_shade_color RGB(0 0 6 / 36%);
   @define-color headerbar_darker_shade_color RGB(0 0 12 / 90%);
 
-  // Split pane views
-  @define-color sidebar_bg_color #2e2e32;
+  // Split pane views — 75% translucent glass (matches MacTahoe blur variant)
+  @define-color sidebar_bg_color rgba(10, 10, 12, 0.75);
   @define-color sidebar_fg_color white;
-  @define-color sidebar_backdrop_color #28282c;
-  @define-color sidebar_shade_color RGB(0 0 6 / 25%);
-  @define-color sidebar_border_color RGB(0 0 6 / 36%);
+  @define-color sidebar_backdrop_color rgba(0, 0, 0, 0.80);
+  @define-color sidebar_shade_color RGB(0 0 6 / 40%);
+  @define-color sidebar_border_color RGB(255 255 255 / 8%);
 
-  @define-color secondary_sidebar_bg_color #28282c;
+  @define-color secondary_sidebar_bg_color rgba(5, 5, 5, 0.70);
   @define-color secondary_sidebar_fg_color white;
-  @define-color secondary_sidebar_backdrop_color #252529;
-  @define-color secondary_sidebar_shade_color RGB(0 0 6 / 25%);
-  @define-color secondary_sidebar_border_color RGB(0 0 6 / 36%);
+  @define-color secondary_sidebar_backdrop_color rgba(0, 0, 0, 0.75);
+  @define-color secondary_sidebar_shade_color RGB(0 0 6 / 40%);
+  @define-color secondary_sidebar_border_color RGB(255 255 255 / 8%);
 
   // Cards, boxed lists
-  @define-color card_bg_color RGB(255 255 255 / 8%);
+  @define-color card_bg_color RGB(255 255 255 / 5%);
   @define-color card_fg_color white;
-  @define-color card_shade_color RGB(0 0 6 / 36%);
+  @define-color card_shade_color RGB(0 0 0 / 60%);
 
   // Dialogs
-  @define-color dialog_bg_color #36363a;
+  @define-color dialog_bg_color #0f0f11;
   @define-color dialog_fg_color white;
 
   // Popovers
-  @define-color popover_bg_color #36363a;
+  @define-color popover_bg_color #0f0f11;
   @define-color popover_fg_color white;
-  @define-color popover_shade_color RGB(0 0 6 / 25%);
+  @define-color popover_shade_color RGB(0 0 0 / 60%);
 
   // Thumbnails
   @define-color thumbnail_bg_color #39393d;
@@ -246,6 +246,20 @@
 
   --overview-bg-color: #f3f3f5;
   --overview-fg-color: rgb(0 0 6 / 80%);
+
+  /* Liquid Glass Base Tokens (Light) */
+  --color-surface-solid: #f5f5f5;
+  --color-surface-glass-primary: rgba(245, 245, 245, 0.65);
+  --color-surface-glass-secondary: rgba(0, 0, 0, 0.04);
+  --color-button-base: rgba(0, 0, 0, 0.08);
+  --color-button-hover: rgba(0, 0, 0, 0.12);
+  --color-button-active: rgba(0, 0, 0, 0.18);
+  --shadow-refraction-light: 0 4px 20px rgba(0, 0, 0, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.6), inset -0.5px -0.5px 1px 0 rgba(255, 255, 255, 0.4);
+  --shadow-refraction-micro: 0 1px 3px rgba(0, 0, 0, 0.05), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.6);
+  --shadow-separator: rgba(50, 50, 50, 0.1);
+  --radius-pill: 9999px;
+  --radius-panel: 16px;
+  --radius-panel-lg: 24px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -255,6 +269,17 @@
 
     --overview-bg-color: #28282c;
     --overview-fg-color: #ffffff;
+
+    /* Liquid Glass Base Tokens (Dark) */
+    --color-surface-solid: #202121;
+    --color-surface-glass-primary: rgba(25, 25, 25, 0.55);
+    --color-surface-glass-secondary: rgba(255, 255, 255, 0.04);
+    --color-button-base: rgba(170, 170, 170, 0.15);
+    --color-button-hover: rgba(170, 170, 170, 0.20);
+    --color-button-active: rgba(170, 170, 170, 0.30);
+    --shadow-refraction-light: 0 4px 20px rgba(20, 21, 21, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18), inset -0.5px -0.5px 1px 0 rgba(255, 255, 255, 0.2);
+    --shadow-refraction-micro: 0 1px 3px rgba(20, 21, 21, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18);
+    --shadow-separator: rgba(225, 225, 225, 0.1);
   }
 }
 

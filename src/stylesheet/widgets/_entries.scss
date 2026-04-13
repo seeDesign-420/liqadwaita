@@ -4,7 +4,7 @@ entry {
     min-height: 34px;
     padding-left: 9px;
     padding-right: 9px;
-    border-radius: $button_radius;
+    border-radius: var(--radius-pill);
     border-spacing: 6px;
     background-color: $button_color;
     background-clip: padding-box;

@@ -1,27 +1,32 @@
-$button_color: color-mix(in srgb, currentColor 10%, transparent);
-$button_hover_color: color-mix(in srgb, currentColor 15%, transparent);
-$button_active_color: color-mix(in srgb, currentColor 30%, transparent);
-$button_checked_color: color-mix(in srgb, currentColor 30%, transparent);
-$button_checked_hover_color: color-mix(in srgb, currentColor 35%, transparent);
-$button_checked_active_color: color-mix(in srgb, currentColor 40%, transparent);
+$button_color: var(--color-button-base);
+$button_hover_color: var(--color-button-hover);
+$button_active_color: var(--color-button-active);
+$button_checked_color: var(--color-button-active);
+$button_checked_hover_color: var(--color-button-hover);
+$button_checked_active_color: var(--color-button-active);
 
-$opaque_button_default_bg: color-mix(in srgb, var(--window-bg-color) 85%, var(--window-fg-color));
+$opaque_button_default_bg: var(--color-button-base);
 
-$destructive_button_color: color-mix(in srgb, currentColor 15%, transparent);
-$destructive_button_hover_color: color-mix(in srgb, currentColor 20%, transparent);
-$destructive_button_active_color: color-mix(in srgb, currentColor 35%, transparent);
-$destructive_button_checked_color: color-mix(in srgb, currentColor 35%, transparent);
-$destructive_button_checked_hover_color: color-mix(in srgb, currentColor 40%, transparent);
-$destructive_button_checked_active_color: color-mix(in srgb, currentColor 45%, transparent);
+$destructive_button_color: color-mix(in oklch, var(--destructive-bg-color) 85%, transparent);
+$destructive_button_hover_color: color-mix(in oklch, var(--destructive-bg-color) 95%, white 10%);
+$destructive_button_active_color: var(--destructive-bg-color);
+$destructive_button_checked_color: var(--destructive-bg-color);
+$destructive_button_checked_hover_color: var(--destructive-bg-color);
+$destructive_button_checked_active_color: var(--destructive-bg-color);
 
 %button,
 button {
   @at-root %button_basic, & {
     min-height: 24px;
     min-width: 16px;
-    padding: 5px 10px;
-    border-radius: $button_radius;
-    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-refraction-micro);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 
     @include focus-ring($transition: $button_transition);
 
@@ -64,9 +69,16 @@ button {
     }
 
     &.image-button {
-      min-width: 24px;
-      padding-left: 5px;
-      padding-right: 5px;
+      min-width: 34px;
+      min-height: 34px;
+      padding: 0;
+      border-radius: 9999px;
+
+      /* Window controls have their own 14×14 styling — don't override */
+      windowcontrols > & {
+        min-width: 14px;
+        min-height: 14px;
+      }
     }
 
     &.text-button {
@@ -115,34 +127,32 @@ button {
     min-height: 32px;
     @include focus-ring($outer: true, $offset: 1px, $transition: $button_transition);
 
-    color: $osd_fg_color;
-    background-color: RGB(0 0 0 / 65%);
+    color: inherit;
+    background-color: $button_color;
 
     @media (prefers-contrast: more) {
       box-shadow: 0 0 0 1px currentColor;
     }
 
     &:hover {
-      color: white;
-      background-color: color-mix(in srgb, black calc(0.85 * 65%), currentColor calc(0.15 * 65%));
+      background-color: $button_hover_color;
     }
 
     &.keyboard-activating,
     &:active {
-      color: white;
-      background-color: color-mix(in srgb, black calc(0.75 * 65%), currentColor calc(0.25 * 65%));
+      background-color: $button_active_color;
     }
 
     &:checked {
-      background-color: color-mix(in srgb, black calc(0.8 * 65%), currentColor calc(0.2 * 65%));
+      background-color: $button_checked_color;
 
       &:hover {
-        background-color: color-mix(in srgb, black calc(0.75 * 65%), currentColor calc(0.25 * 65%));
+        background-color: $button_checked_hover_color;
       }
 
       &.keyboard-activating,
       &:active {
-        background-color: color-mix(in srgb, black calc(0.65 * 65%), currentColor calc(0.35 * 65%));
+        background-color: $button_checked_active_color;
       }
     }
 
@@ -234,6 +244,7 @@ button {
   @at-root %button_basic_flat,
   &.flat {
     background: transparent;
+    border: none;
     @include focus-ring($transition: $button_transition);
 
     box-shadow: none;
@@ -258,6 +269,9 @@ button {
 
     &:checked {
       background: $selected_color;
+      /* Active toggles get the glass button styling */
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow-refraction-micro);
 
       &:hover {
         background: $selected_hover_color;
@@ -422,10 +436,10 @@ menubutton {
 
   &.suggested-action,
   &.opaque {
-    border-radius: $button_radius;
+    border-radius: var(--radius-pill);
 
     &.circular, &.pill {
-      border-radius: 9999px;
+      border-radius: var(--radius-pill);
     }
 
     > button {
@@ -569,7 +583,7 @@ splitbutton {
     > menubutton > button {
       @extend %button_basic_flat;
 
-      border-radius: $button_radius;
+      border-radius: var(--radius-pill);
     }
   }
 
