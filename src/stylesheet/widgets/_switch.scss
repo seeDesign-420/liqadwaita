@@ -27,20 +27,25 @@ switch {
     border-radius: 50%;
     background-color: $slider_color;
     box-shadow: 0 2px 4px RGB(0 0 6 / 20%);
+    transition: all 0.25s cubic-bezier(0.25, 1.5, 0.5, 1);
 
     &:disabled {
       box-shadow: 0 2px 4px transparent;
     }
   }
 
-  &:hover > slider,
+  &:hover > slider {
+    background: $slider_hover_color;
+  }
+  
   &:active > slider {
     background: $slider_hover_color;
+    @include switch-slider-active-shadow();
   }
 
   &:checked {
-    color: var(--accent-fg-color);
-    background-color: var(--accent-bg-color);
+    color: white;
+    background-color: var(--color-switch-track-on);
 
     &:hover { background-image: image(color-mix(in srgb, currentColor 10%, transparent)); }
     &:active { background-image: image(RGB(0 0 6 / 20%)); }

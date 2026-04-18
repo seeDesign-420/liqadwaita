@@ -38,9 +38,14 @@ window.dialog.message {
       border-spacing: 12px;
 
       > button {
-        min-height: 24px;
-        padding: 10px 20px;
+        min-height: 36px;
+        min-width: 120px;
+        padding: 8px 24px;
+        margin: 6px; // Ensure non-contiguous layout
         border-radius: var(--radius-pill);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow-refraction-micro);
+        font-weight: bold;
       }
     }
   }
@@ -117,10 +122,14 @@ dialog.alert {
     border-spacing: 12px;
 
     > button {
-      min-height: 24px;
-      min-width: 60px;
-      padding: 10px 20px;
+      min-height: 36px;
+      min-width: 160px;
+      padding: 8px 24px;
+      margin: 6px; // Override overlapping margins from system themes
       border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow-refraction-micro);
+      font-weight: bold;
     }
   }
 
@@ -144,8 +153,10 @@ dialog.alert {
       padding-top: 9px;
 
       > button {
-        min-width: 0;
-        padding: 8px 16px;
+        min-width: 160px;
+        min-height: 36px;
+        padding: 8px 24px;
+        margin: 6px;
       }
     }
   }

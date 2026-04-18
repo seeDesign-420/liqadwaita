@@ -19,13 +19,13 @@ button {
   @at-root %button_basic, & {
     min-height: 24px;
     min-width: 16px;
-    padding: 8px 20px;
-    border-radius: var(--radius-pill);
+    padding: 5px 10px;
+    border-radius: $button_radius;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: var(--shadow-refraction-micro);
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
+    /* Anti-alias: keep background inside the border curve, GPU layer for sub-pixel smoothing */
+    background-clip: padding-box;
     transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 
     @include focus-ring($transition: $button_transition);
@@ -73,15 +73,19 @@ button {
       min-height: 34px;
       padding: 0;
       border-radius: 9999px;
+      /* Pill/circle buttons: explicit padding-box + GPU layer for perfect circle AA */
+      background-clip: padding-box;
 
       /* Window controls have their own 14×14 styling — don't override */
       windowcontrols > & {
         min-width: 14px;
         min-height: 14px;
+        padding: 0;
       }
     }
 
     &.text-button {
+      min-width: 90px;
       padding-left: 17px;
       padding-right: 17px;
     }
@@ -329,6 +333,7 @@ button {
     min-height: 34px;
     padding: 0;
     border-radius: 9999px;
+    background-clip: padding-box;
 
     label { padding: 0; }
   }
@@ -337,6 +342,7 @@ button {
   &.pill {
     padding: 10px 32px;
     border-radius: 9999px;
+    background-clip: padding-box;
   }
 
   &.card {
@@ -484,36 +490,43 @@ menubutton {
 }
 
 splitbutton {
-  border-radius: $button_radius;
+  border-radius: 9999px;
+  background-color: $button_color;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-refraction-micro);
+  /* Anti-alias: pill container needs padding-box so bg stays inside the border arc */
+  background-clip: padding-box;
 
   &, & > separator {
     transition: $button_transition;
-    transition-property: background;
+    transition-property: background, border, box-shadow;
   }
 
   > separator {
     margin-top: 6px;
     margin-bottom: 6px;
-    background: none;
+    min-width: 1px;
+    background: currentColor;
+    opacity: 0.15;
   }
 
   > menubutton > button {
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   // Since the inner button doesn't have any style classes on it,
   // we have to add them manually
   &.image-button > button {
     min-width: 24px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   &.text-button.image-button > button,
   &.image-text-button > button {
-    padding-left: 9px;
-    padding-right: 9px;
+    padding-left: 12px;
+    padding-right: 12px;
 
     > box {
       border-spacing: 6px;
@@ -528,23 +541,51 @@ splitbutton {
     }
   }
 
-  // Reimplementing linked so we don't blow up css
+  > button,
+  > menubutton > button {
+    // Strip child styles, letting the splitbutton container act as the pill
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+
+    @media (prefers-contrast: more) {
+      box-shadow: none;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    &.keyboard-activating,
+    &:active {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    &:checked {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  // Adjust inner corner radii for precise hover regions,
+  // but we don't need margin-right: -1px since neither side has borders.
   > button:dir(ltr),
   > menubutton > button:dir(rtl) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    margin-right: -1px;
   }
 
   > button:dir(rtl),
   > menubutton > button:dir(ltr) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    margin-left: -1px;
   }
 
   @at-root %flat_split_button,
   &.flat {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+
     > separator {
       background: color-mix(in srgb, currentColor $dimmer_opacity, transparent);
 
@@ -584,6 +625,15 @@ splitbutton {
       @extend %button_basic_flat;
 
       border-radius: var(--radius-pill);
+      box-shadow: none;
+      border: none;
+      background: transparent;
+
+      &:hover, &:active, &:checked {
+        box-shadow: none;
+        border: none;
+        background: transparent;
+      }
     }
   }
 
@@ -618,16 +668,8 @@ splitbutton {
       &, &:checked {
         color: inherit;
         background-color: transparent;
-      }
-    }
-
-    > menubutton > button {
-      &:dir(ltr) { box-shadow: inset 1px 0 color-mix(in srgb, currentColor $dimmer_opacity, transparent); }
-      &:dir(rtl) { box-shadow: inset -1px 0 color-mix(in srgb, currentColor $dimmer_opacity, transparent); }
-
-      @media (prefers-contrast: more) {
-        &:dir(ltr) { box-shadow: inset 1px 0 color-mix(in srgb, currentColor $dimmer_opacity_hc, transparent); }
-        &:dir(rtl) { box-shadow: inset -1px 0 color-mix(in srgb, currentColor $dimmer_opacity_hc, transparent); }
+        box-shadow: none;
+        border: none;
       }
     }
   }

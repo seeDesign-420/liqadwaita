@@ -1,15 +1,19 @@
 tabbar {
   .box {
-    background: transparent;
+    min-height: 34px;
     color: var(--headerbar-fg-color);
+    margin: 2px 6px;
     box-shadow: none;
+    border: none;
+    padding: 2px 0;
+    background-color: color-mix(in srgb, var(--headerbar-fg-color) 8%, transparent);
+    border-radius: var(--radius-pill);
 
     @media (prefers-contrast: more) {
       box-shadow: inset 0 -1px $headerbar_border_color;
     }
 
     &:backdrop {
-      background-color: transparent;
       transition: background-color $backdrop_transition;
 
       > scrolledwindow,
@@ -22,18 +26,22 @@ tabbar {
   }
 
   tabbox {
-    padding-bottom: 6px;
-    padding-top: 6px;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    background-color: transparent;
     min-height: 34px;
+    margin: 0;
 
     > tabboxchild {
       @include focus-ring($focus-state: ':focus-within:focus-visible');
       border-radius: var(--radius-pill);
+      margin: 0;
     }
 
     > separator {
-      margin-top: 3px;
-      margin-bottom: 3px;
+      margin: 6px 0;
+      background-color: color-mix(in srgb, var(--headerbar-fg-color) 15%, transparent);
       transition: opacity 150ms ease-in-out;
 
       &.hidden {
@@ -54,7 +62,13 @@ tabbar {
   }
 
   tab {
-    transition: background 150ms ease-in-out;
+    color: color-mix(in srgb, var(--headerbar-fg-color) 60%, transparent);
+    background-color: transparent;
+    border: none;
+    transition: all 150ms ease-out;
+    border-radius: var(--radius-pill);
+    padding: 2px 5px;
+    margin: 0;
 
     @media (prefers-contrast: more) {
       &:hover,
@@ -65,19 +79,25 @@ tabbar {
     }
 
     &:selected {
-      background-color: color-mix(in srgb, var(--headerbar-fg-color) 15%, transparent);
-      box-shadow: 0 0 2px rgba(15, 15, 15, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18), inset -0.5px -0.5px 1px 0 rgba(255, 255, 255, 0.2);
+      color: var(--headerbar-fg-color);
+      background-color: var(--window-bg-color);
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08), inset 1px 2px 1px -1px rgba(255, 255, 255, 0.15), inset -1px -1px 1px -1px rgba(255, 255, 255, 0.2);
 
-      @media (prefers-color-scheme: light) {
-        background-color: color-mix(in srgb, var(--headerbar-fg-color) 80%, transparent);
+      @media (prefers-color-scheme: dark) {
+        background-color: color-mix(in srgb, var(--window-bg-color) 95%, white 5%);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2), inset 1px 2px 1px -1px rgba(255, 255, 255, 0.05), inset -1px -1px 1px -1px rgba(255, 255, 255, 0.02);
       }
-
-      &:hover { background-color: color-mix(in srgb, var(--headerbar-fg-color) 20%, transparent); }
-      &:active { background-color: color-mix(in srgb, var(--headerbar-fg-color) 25%, transparent); }
     }
 
-    &:hover { background-color: $hover_color; }
-    &:active { background-color: $active_color; }
+    &:hover:not(:selected) { 
+      color: color-mix(in srgb, var(--headerbar-fg-color) 80%, transparent);
+      background-color: color-mix(in srgb, var(--headerbar-fg-color) 10%, transparent);
+    }
+    
+    &:active:not(:selected) { 
+      color: var(--headerbar-fg-color);
+      background-color: color-mix(in srgb, var(--headerbar-fg-color) 15%, transparent);
+    }
   }
 
   tabbox.single-tab tab {
@@ -92,7 +112,14 @@ tabbar {
 
   .start-action,
   .end-action {
-    padding: 6px 5px;
+    padding: 6px;
+
+    button {
+      min-height: 34px;
+      min-width: 34px;
+      padding: 2px;
+      border-radius: var(--radius-pill);
+    }
   }
 
   .start-action:dir(ltr),
@@ -111,10 +138,13 @@ tabbar {
 }
 
 %tabbar-inline .box {
+  min-height: 34px;
+  margin: 0;
+  padding: 3px;
   background-color: transparent;
   color: inherit;
+  border-radius: 0;
   box-shadow: none;
-  padding-bottom: 0;
 
   &:backdrop {
     background-color: transparent;

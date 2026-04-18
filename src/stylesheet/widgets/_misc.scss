@@ -241,3 +241,54 @@ navigation-view,
 overlay-split-view {
   @include transition-shadows();
 }
+
+/**
+ * AdwOverlaySplitView — Liquid Glass Mode
+ *
+ * In overlay-split-view (used by Nautilus, GNOME Files, etc.) the sidebar
+ * slides ON TOP of the content instead of sitting beside it. The content-pane
+ * fills the full window width. We replicate MacTahoe's behaviour:
+ *   • .content-pane  → full-window-width opaque dark box (no left-margin cutoff)
+ *   • .sidebar-pane  → pure transparent glass sheet floating above the content
+ *                      (no own background, no margin, no floating radius gap)
+ */
+overlay-split-view {
+  /* Content fills the entire window — no gap for the sidebar */
+  > .content-pane {
+    border-radius: var(--window-radius, 12px);
+    background-color: var(--view-bg-color);
+    background-clip: padding-box;
+    /* No margin: content-pane goes edge-to-edge */
+    margin: 0;
+  }
+
+  /* Sidebar is a pure glass overlay — no own opaque background */
+  > .sidebar-pane {
+    /* No background: the content-pane dark bg shows through */
+    background-color: transparent;
+    background-image: none;
+    /* Keep the 1px light-catch border and refraction shadow for depth */
+    border-right: 1px solid oklch(100% 0 0 / 8%);
+    border-radius: 0;
+    /* No margin — sidebar touches the window edges flush */
+    margin: 0;
+    box-shadow: none;
+    /* Subtle frosted tint so sidebar rows are readable over the content bg */
+    background: linear-gradient(
+      to right,
+      oklch(100% 0 0 / 3%) 0%,
+      transparent 100%
+    );
+  }
+
+  /* When the sidebar is shown as a narrow overlay (phone / narrow window),
+     it gets a shadow to separate it from the content below. */
+  &.sidebar-overlay > .sidebar-pane {
+    box-shadow: var(--shadow-refraction-light);
+    border-right: none;
+    border-radius: 0 var(--window-radius, 12px) var(--window-radius, 12px) 0;
+    background-color: rgba(10, 10, 15, 0.72);
+    background-image: none;
+    margin: 0;
+  }
+}

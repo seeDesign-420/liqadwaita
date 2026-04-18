@@ -381,7 +381,7 @@ adw_demo_page_animations_init (AdwDemoPageAnimations *self)
 
   self->spring_animation =
     adw_spring_animation_new (GTK_WIDGET (self->timed_animation_sample), 0, 1,
-                              adw_spring_params_new_full (10, 1, 100),
+                              adw_spring_params_new_full (10, 0, 100),
                               target);
 
   notify_spring_params_change (self);

@@ -7,6 +7,47 @@
     }
   }
 
+  /* Override the flattened toolbar styles specifically for windowcontrols buttons.
+   * The toolbar logic above generates selectors like:
+   *   headerbar button.image-button:not(.raised):not(.suggested-action)...
+   * with very high specificity from the :not() chain.
+   * We must match or exceed that specificity here. */
+  windowcontrols > button.image-button:not(.raised):not(.suggested-action):not(.destructive-action):not(.opaque) {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+
+    /* Enforce compact macOS sizing for toolbar window control overrides */
+    min-width: 16px;
+    min-height: 16px;
+    padding: 0;
+    margin: 11px 4px;
+    border-radius: 9999px;
+
+    &, &:hover, &:active, &:checked {
+      background-image: none;
+      background-color: transparent;
+    }
+
+    &.close {
+      &, &:hover, &:active, &:checked { background-color: #ff5f56; }
+      &:hover { background-color: #ff3b30; }
+      &:active { background-color: #d71106; }
+    }
+
+    &.minimize {
+      &, &:hover, &:active, &:checked { background-color: #ffbd2e; }
+      &:hover { background-color: #e0a323; }
+      &:active { background-color: #c9911e; }
+    }
+
+    &.maximize {
+      &, &:hover, &:active, &:checked { background-color: #27c93f; }
+      &:hover { background-color: #20a833; }
+      &:active { background-color: #1a8f29; }
+    }
+  }
+
   menubutton:not(.raised):not(.suggested-action):not(.destructive-action):not(.opaque) {
     &:disabled {
       filter: none;

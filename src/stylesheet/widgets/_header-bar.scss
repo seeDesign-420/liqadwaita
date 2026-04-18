@@ -2,9 +2,11 @@ headerbar {
   min-height: 47px;
   background-color: var(--color-surface-glass-secondary);
   color: var(--headerbar-fg-color);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-panel);
   margin: 20px;
   box-shadow: var(--shadow-refraction-light);
+  /* Anti-alias: pill surface — background stays inside border arc, GPU compositor layer */
+  background-clip: padding-box;
 
   @media (prefers-contrast: more) {
     box-shadow: inset 0 0 0 1px $headerbar_border_color;
@@ -12,23 +14,25 @@ headerbar {
 
   @extend %toolbar;
 
-  > windowhandle > box {
-    padding: 6px 7px 7px 7px;
+  >windowhandle>box {
+    padding: 0px;
 
-    > box.start,
-    > box.end {
-      border-spacing: 6px;
+    >box.start,
+    >box.end {
+      border-spacing: 6px; // Restored spacing so items don't touch
     }
 
-    &, > widget {
-      > box.start:dir(ltr),
-      > box.end:dir(rtl) {
-        margin-right: 6px;
+    &,
+    >widget {
+
+      >box.start:dir(ltr),
+      >box.end:dir(rtl) {
+        margin-right: 0px;
       }
 
-      > box.start:dir(rtl),
-      > box.end:dir(ltr) {
-        margin-left: 6px;
+      >box.start:dir(rtl),
+      >box.end:dir(ltr) {
+        margin-left: 0px;
       }
     }
   }
@@ -37,48 +41,69 @@ headerbar {
     background-color: var(--headerbar-backdrop-color);
     transition: background-color $backdrop_transition;
 
-    > windowhandle {
-      // opacity looks weird with GtkSwitch, but filter works fine
+    >windowhandle {
       filter: opacity(0.5);
-
       transition: filter $backdrop_transition;
+    }
+  }
+
+  // Enforce glass styling for buttons inside headerbar, overriding any flat transparent styling
+  // injected by the Tahoe system theme or GTK defaults.
+  button,
+  button.flat {
+    @extend %button_basic_raised;
+    margin-top: 6px;
+    margin-bottom: 6px;
+
+    &.image-button {
+      min-width: 34px;
+      min-height: 34px;
+      padding: 0;
+      border-radius: 9999px;
+    }
+
+    &.text-button {
+      min-width: 90px;
+      padding-left: 17px;
+      padding-right: 17px;
+      border-radius: var(--radius-pill);
     }
   }
 
   &.default-decoration {
     min-height: 37px;
 
-    > windowhandle > box {
+    >windowhandle>box {
       padding: 3px 4px 4px 4px;
     }
 
     windowcontrols {
-      > button {
-        min-height: 14px;
-        min-width: 14px;
+      >button {
+        min-height: 17px;
+        min-width: 17px;
         padding: 0;
         margin: 6px 4px;
 
-        > image {
+        >image {
           padding: 0;
         }
       }
 
-      > .icon {
+      >.icon {
         margin: 7px;
       }
     }
   }
 }
 
-window:not(.ssd-frame) > {
+window:not(.ssd-frame)> {
   .titlebar:not(.flat) {
     box-shadow: 0 1px color-mix(in srgb, var(--headerbar-shade-color) 50%, transparent),
-                0 2px 4px color-mix(in srgb, var(--headerbar-shade-color) 50%, transparent);
+      0 2px 4px color-mix(in srgb, var(--headerbar-shade-color) 50%, transparent);
 
     @media (prefers-contrast: more) {
       box-shadow: 0 1px $border_color,
-                  0 2px 4px color-mix(in srgb, var(--headerbar-shade-color) 50%, transparent);
+        0 2px 4px color-mix(in srgb, var(--headerbar-shade-color) 50%, transparent);
     }
   }
 
@@ -90,14 +115,15 @@ window:not(.ssd-frame) > {
   .titlebar headerbar {
     min-height: 46px;
 
-    > windowhandle > box {
-      padding-bottom: 6px;
+    >windowhandle>box {
+      padding-top: 8px;
+      padding-bottom: 5px;
     }
 
     &.default-decoration {
       min-height: 36px;
 
-      > windowhandle > box {
+      >windowhandle>box {
         padding-bottom: 3px;
       }
     }
@@ -111,14 +137,15 @@ window:not(.ssd-frame) > {
 
   min-height: 46px;
 
-  > windowhandle > box {
+  >windowhandle>box {
+    padding-top: 6px;
     padding-bottom: 6px;
   }
 
   &.default-decoration {
     min-height: 36px;
 
-    > windowhandle > box {
+    >windowhandle>box {
       padding-bottom: 3px;
     }
   }
@@ -130,13 +157,13 @@ window:not(.ssd-frame) > {
   &:backdrop {
     transition: none;
 
-    > windowhandle {
+    >windowhandle {
       filter: none;
       transition: none;
     }
   }
 
-  window.devel & > windowhandle {
+  window.devel &>windowhandle {
     background-image: none;
   }
 }
@@ -144,15 +171,15 @@ window:not(.ssd-frame) > {
 %headerbar-shrunk {
   min-height: 40px;
 
-  > windowhandle > box {
-    padding-top: 3px;
-    padding-bottom: 3px;
+  >windowhandle>box {
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   &.default-decoration {
     min-height: 30px;
 
-    > windowhandle > box {
+    >windowhandle>box {
       padding-top: 0px;
       padding-bottom: 0px;
     }
@@ -160,7 +187,9 @@ window:not(.ssd-frame) > {
 }
 
 .titlebar:not(headerbar) {
-  separator { background-color: $headerbar_border_color; }
+  separator {
+    background-color: $headerbar_border_color;
+  }
 }
 
 /*********************
@@ -168,66 +197,80 @@ window:not(.ssd-frame) > {
  *********************/
 
 windowcontrols {
-  border-spacing: 3px;
+  border-spacing: 6px;
 
-  > button {
-    min-width: 14px;
-    min-height: 14px;
-    margin: 6px 4px;
-    padding: 0;
-    border-radius: 50%;
+  &.start {
+    margin-right: 6px;
+  }
 
-    &, &:hover, &:active, &:checked {
-      background-image: none;
-      /* Default shadow for all buttons to look glassy */
-      box-shadow: inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.15);
-      border: none;
-    }
+  &.end {
+    margin-left: 6px;
+  }
 
-    > image {
-      background-color: transparent;
+  >.icon {
+    margin: 9px;
+  }
+}
+
+headerbar windowcontrols {
+
+  button,
+  button.image-button {
+    >image {
       padding: 0;
       margin: 0;
-      transition: $button_transition;
-      /* Hide the symbolic icon at rest */
+      background-color: transparent;
+      background-image: none;
       color: transparent;
     }
 
-    /* Hover reveals inner icon as a darker shadow */
-    &:hover > image {
-      color: rgba(0, 0, 0, 0.5);
-    }
-    
-    &:active > image {
-      color: rgba(0, 0, 0, 0.7);
-    }
-
-    /* Default color if it's an unrecognized button type (prevents black empty boxes) */
-    &, &:hover, &:active, &:checked {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    &.close {
-      &, &:hover, &:active, &:checked { background-color: #ff5f56; }
-      &:hover { background-color: #ff3b30; }
-      &:active { background-color: #d71106; }
-    }
-
+    &.close,
+    &.maximize,
     &.minimize {
-      &, &:hover, &:active, &:checked { background-color: #ffbd2e; }
-      &:hover { background-color: #e0a323; }
-      &:active { background-color: #c9911e; }
+      min-width: 14px;
+      min-height: 14px;
+      padding: 0;
+      margin: 10px 4px;
+      border-radius: 9999px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 14px; /* Ensure icon covers correctly if it contains the circle, or centered if small */
+      background-color: var(--color-button-base);
+      color: transparent;
+      border: none;
+      
+      @include titlebutton-shadow();
+      transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+        background-color: var(--color-button-hover);
+      }
+      
+      &:active {
+        background-color: var(--color-button-active);
+      }
+
+      &:backdrop {
+        background-color: var(--color-button-base);
+        @include titlebutton-shadow-backdrop();
+        opacity: 0.8;
+      }
     }
 
-    &.maximize {
-      &, &:hover, &:active, &:checked { background-color: #27c93f; }
-      &:hover { background-color: #20a833; }
-      &:active { background-color: #1a8f29; }
-    }
-  }
+    @each $k in ('close', 'maximize', 'minimize') {
+      @each $l, $m in ('', ''), (':backdrop', '-backdrop'), (':backdrop:hover', '-backdrop-hover'), (':hover', '-hover'), (':active', '-active') {
+        &.#{$k}#{$l} {
+          background-image: -gtk-scaled(url('assets/windows-assets/titlebutton-#{$k}#{$m}.png'),
+            url('assets/windows-assets/titlebutton-#{$k}#{$m}@2.png'));
 
-  > .icon {
-    margin: 9px;
+          @media (prefers-color-scheme: dark) {
+            background-image: -gtk-scaled(url('assets/windows-assets/titlebutton-#{$k}#{$m}-dark.png'),
+              url('assets/windows-assets/titlebutton-#{$k}#{$m}-dark@2.png'));
+          }
+        }
+      }
+    }
   }
 }
 
@@ -260,13 +303,13 @@ windowtitle {
 // Development versions of apps to use a differently styled headerbar
 
 window.devel {
-  headerbar > windowhandle {
+  headerbar>windowhandle {
     background-image: cross-fade(5% -gtk-recolor(url("assets/devel-stripes.svg")),
-                                 image(transparent));
+        image(transparent));
     background-repeat: repeat-x;
   }
 
-  sheet headerbar > windowhandle {
+  sheet headerbar>windowhandle {
     background-image: unset;
     background-repeat: unset;
   }

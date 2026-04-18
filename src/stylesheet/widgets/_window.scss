@@ -5,9 +5,16 @@ window {
                 0 0 0 1px RGB(0 0 0 / 5%);
     margin: 0px;
     border-radius: var(--window-radius);
+    /* Anti-alias window corners: stops bg bleeding past the outline */
+    background-clip: padding-box;
 
     outline: 1px solid $window_outline_color;
     outline-offset: -1px;
+
+    > contents {
+      border-radius: inherit;
+      overflow: hidden;
+    }
 
     @media (prefers-contrast: more) {
       outline-color: $window_outline_color_hc;
@@ -99,6 +106,16 @@ window {
 
     @media (prefers-contrast: more) {
       box-shadow: 0 0 0 1px RGB(0 0 0 / 80%);
+    }
+
+    headerbar {
+      margin: 0;
+      border-radius: 0;
+      background-color: var(--headerbar-bg-color);
+      box-shadow: none;
+      
+      // Enforce edge-to-edge rendering without internal padded clipping
+      background-clip: border-box;
     }
   }
 }

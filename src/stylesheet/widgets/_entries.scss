@@ -6,7 +6,9 @@ entry {
     padding-right: 9px;
     border-radius: var(--radius-pill);
     border-spacing: 6px;
-    background-color: $button_color;
+    background-color: transparent;
+    background-image: var(--color-entry-fluid-gradient);
+    @include entry-glass-shadow();
     background-clip: padding-box;
     caret-color: currentColor;
 

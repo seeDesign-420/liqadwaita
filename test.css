@@ -1,0 +1,6 @@
+windowcontrols {
+  > button {
+    min-height: 14px;
+    min-width: 14px;
+  }
+}

@@ -240,7 +240,7 @@
                                       <object class="GtkAdjustment">
                                         <property name="lower">-1000</property>
                                         <property name="upper">1000</property>
-                                        <property name="value">0</property>
+                                        <property name="value">1</property>
                                         <property name="page-increment">10</property>
                                         <property name="step-increment">1</property>
                                       </object>
@@ -270,7 +270,7 @@
                                       <object class="GtkAdjustment">
                                         <property name="lower">0</property>
                                         <property name="upper">100</property>
-                                        <property name="value">1</property>
+                                        <property name="value">0</property>
                                         <property name="page-increment">10</property>
                                         <property name="step-increment">1</property>
                                       </object>
@@ -303,7 +303,7 @@
                                       <object class="GtkAdjustment">
                                         <property name="lower">0.0001</property>
                                         <property name="upper">0.01</property>
-                                        <property name="value">0.001</property>
+                                        <property name="value">0.0011</property>
                                         <property name="page-increment">0.001</property>
                                         <property name="step-increment">0.001</property>
                                       </object>

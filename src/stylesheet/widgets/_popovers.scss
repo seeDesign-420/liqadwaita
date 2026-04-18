@@ -12,7 +12,8 @@ popover {
 
   > arrow,
   > contents {
-    background-color: var(--color-surface-glass-primary);
+    background-color: var(--color-popover-fluid-bg);
+    background-image: var(--color-popover-fluid-gradient);
     color: var(--popover-fg-color);
     background-clip: padding-box;
     border: none;

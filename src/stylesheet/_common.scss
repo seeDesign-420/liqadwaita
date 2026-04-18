@@ -14,7 +14,7 @@ $popover_radius: $menu_radius + 6;
 $dialog_radius: $button_radius + 6;
 
 :root {
-  --window-radius: #{$button_radius + 6};
+  --window-radius: #{$button_radius + 11};
 
   -gtk-icon-palette: success var(--success-color),
                      warning var(--warning-color),

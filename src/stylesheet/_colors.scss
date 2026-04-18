@@ -29,31 +29,31 @@
 @define-color error_color oklab(from @error_bg_color min(l, 0.5) a b);
 
 // Window
-@define-color window_bg_color #fafafb;
+@define-color window_bg_color transparent;
 @define-color window_fg_color RGB(0 0 6 / 80%);
 
 // Views - e.g. text view or tree view
-@define-color view_bg_color #ffffff;
+@define-color view_bg_color transparent;
 @define-color view_fg_color RGB(0 0 6 / 80%);
 
 // Header bar, search bar, tab bar
-@define-color headerbar_bg_color #ffffff;
+@define-color headerbar_bg_color transparent;
 @define-color headerbar_fg_color RGB(0 0 6 / 80%);
 @define-color headerbar_border_color RGB(0 0 6 / 80%);
-@define-color headerbar_backdrop_color @window_bg_color;
+@define-color headerbar_backdrop_color transparent;
 @define-color headerbar_shade_color RGB(0 0 6 / 12%);
 @define-color headerbar_darker_shade_color RGB(0 0 6 / 12%);
 
 // Split pane views
-@define-color sidebar_bg_color rgba(235, 235, 237, 0.75);
+@define-color sidebar_bg_color rgba(255, 255, 255, 0.6);
 @define-color sidebar_fg_color RGB(0 0 6 / 80%);
-@define-color sidebar_backdrop_color rgba(242, 242, 244, 0.80);
+@define-color sidebar_backdrop_color rgba(242, 242, 244, 0.40);
 @define-color sidebar_shade_color RGB(0 0 6 / 7%);
 @define-color sidebar_border_color RGB(0 0 6 / 7%);
 
-@define-color secondary_sidebar_bg_color rgba(243, 243, 245, 0.70);
+@define-color secondary_sidebar_bg_color transparent;
 @define-color secondary_sidebar_fg_color RGB(0 0 6 / 80%);
-@define-color secondary_sidebar_backdrop_color rgba(246, 246, 250, 0.75);
+@define-color secondary_sidebar_backdrop_color rgba(246, 246, 250, 0.35);
 @define-color secondary_sidebar_shade_color RGB(0 0 6 / 7%);
 @define-color secondary_sidebar_border_color RGB(0 0 6 / 7%);
 
@@ -97,31 +97,31 @@
   @define-color warning_color oklab(from @warning_bg_color max(l, 0.85) a b);
   @define-color error_color oklab(from @error_bg_color max(l, 0.85) a b);
 
-  // Window — solid opaque floor; sidebar glass is the only translucent layer
-  @define-color window_bg_color #000000;
+  // Window - fully transparent so compositor blur (blur-my-shell) shows through
+  @define-color window_bg_color transparent;
   @define-color window_fg_color white;
 
-  // Views — solid opaque to anchor content
-  @define-color view_bg_color #000000;
+  // Views - fully transparent hole punch for macOS Tahoe layout
+  @define-color view_bg_color transparent;
   @define-color view_fg_color white;
 
   // Header bar, search bar, tab bar
-  @define-color headerbar_bg_color #0a0a0c;
+  @define-color headerbar_bg_color transparent;
   @define-color headerbar_fg_color white;
   @define-color headerbar_border_color white;
   @define-color headerbar_shade_color RGB(0 0 6 / 36%);
   @define-color headerbar_darker_shade_color RGB(0 0 12 / 90%);
 
-  // Split pane views — 75% translucent glass (matches MacTahoe blur variant)
-  @define-color sidebar_bg_color rgba(10, 10, 12, 0.75);
+  // Split pane views - transparent to reveal window glass layer
+  @define-color sidebar_bg_color rgba(15, 15, 17, 0.65);
   @define-color sidebar_fg_color white;
-  @define-color sidebar_backdrop_color rgba(0, 0, 0, 0.80);
+  @define-color sidebar_backdrop_color rgba(0, 0, 0, 0.40);
   @define-color sidebar_shade_color RGB(0 0 6 / 40%);
   @define-color sidebar_border_color RGB(255 255 255 / 8%);
 
-  @define-color secondary_sidebar_bg_color rgba(5, 5, 5, 0.70);
+  @define-color secondary_sidebar_bg_color transparent;
   @define-color secondary_sidebar_fg_color white;
-  @define-color secondary_sidebar_backdrop_color rgba(0, 0, 0, 0.75);
+  @define-color secondary_sidebar_backdrop_color rgba(0, 0, 0, 0.35);
   @define-color secondary_sidebar_shade_color RGB(0 0 6 / 40%);
   @define-color secondary_sidebar_border_color RGB(255 255 255 / 8%);
 
@@ -254,6 +254,15 @@
   --color-button-base: rgba(0, 0, 0, 0.08);
   --color-button-hover: rgba(0, 0, 0, 0.12);
   --color-button-active: rgba(0, 0, 0, 0.18);
+  
+  /* Extracted Web Tokens */
+  --color-popover-fluid-bg: rgba(255, 255, 255, 0.86);
+  --color-popover-fluid-gradient: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.43));
+  --color-entry-fluid-gradient: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.43));
+  --color-switch-track-on: rgb(52, 199, 89);
+  --color-segmented-bg: rgba(255, 255, 255, 0.25);
+  --color-segmented-active-bg: rgba(255, 255, 255, 1);
+  
   --shadow-refraction-light: 0 4px 20px rgba(0, 0, 0, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.6), inset -0.5px -0.5px 1px 0 rgba(255, 255, 255, 0.4);
   --shadow-refraction-micro: 0 1px 3px rgba(0, 0, 0, 0.05), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.6);
   --shadow-separator: rgba(50, 50, 50, 0.1);
@@ -272,13 +281,23 @@
 
     /* Liquid Glass Base Tokens (Dark) */
     --color-surface-solid: #202121;
-    --color-surface-glass-primary: rgba(25, 25, 25, 0.55);
-    --color-surface-glass-secondary: rgba(255, 255, 255, 0.04);
-    --color-button-base: rgba(170, 170, 170, 0.15);
-    --color-button-hover: rgba(170, 170, 170, 0.20);
-    --color-button-active: rgba(170, 170, 170, 0.30);
-    --shadow-refraction-light: 0 4px 20px rgba(20, 21, 21, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18), inset -0.5px -0.5px 1px 0 rgba(255, 255, 255, 0.2);
-    --shadow-refraction-micro: 0 1px 3px rgba(20, 21, 21, 0.1), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18);
+    /* Glass surfaces use a slightly lighter tint so they read over the transparent window */
+    --color-surface-glass-primary: rgba(30, 30, 35, 0.60);
+    --color-surface-glass-secondary: rgba(255, 255, 255, 0.05);
+    --color-button-base: rgba(200, 200, 200, 0.12);
+    --color-button-hover: rgba(200, 200, 200, 0.18);
+    --color-button-active: rgba(200, 200, 200, 0.28);
+    
+    /* Extracted Web Tokens */
+    --color-popover-fluid-bg: rgba(30, 30, 30, 0.7);
+    --color-popover-fluid-gradient: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    --color-entry-fluid-gradient: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    --color-switch-track-on: rgb(52, 199, 89);
+    --color-segmented-bg: rgba(255, 255, 255, 0.1);
+    --color-segmented-active-bg: rgba(255, 255, 255, 0.2);
+
+    --shadow-refraction-light: 0 4px 20px rgba(0, 0, 0, 0.25), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18), inset -0.5px -0.5px 1px 0 rgba(255, 255, 255, 0.2);
+    --shadow-refraction-micro: 0 1px 3px rgba(0, 0, 0, 0.2), inset 1px 1.5px 1px -1px rgba(255, 255, 255, 0.18);
     --shadow-separator: rgba(225, 225, 225, 0.1);
   }
 }
