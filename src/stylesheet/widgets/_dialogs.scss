@@ -42,6 +42,26 @@ window.pagesetup:not(.ssd-frame) {
 }
 
 /******************
+ * Dialog Backgrounds
+ ******************/
+
+window.dialog,
+window.messagedialog,
+window.aboutdialog,
+window.about,
+dialog-host > dialog sheet,
+window.dialog-window {
+  background-color: var(--dialog-bg-color);
+  color: var(--dialog-fg-color);
+  border-radius: 18px; /* Matches $alert_radius */
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+dialog-host > dialog {
+  background-color: transparent; /* Ensure overlay itself doesn't become a solid block */
+}
+
+/******************
  * GtkAboutDialog *
  ******************/
 
@@ -111,8 +131,10 @@ dialog-host > dialog.background {
   background: none;
 
   sheet {
-    background-color: var(--color-surface-glass-primary);
-    color: var(--window-fg-color);
+    background-color: var(--dialog-bg-color);
+    color: var(--dialog-fg-color);
+    border-radius: var(--window-radius);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.05);
   }
 }
 

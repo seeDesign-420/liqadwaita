@@ -12,3 +12,4 @@ subprojects/libsass
 subprojects/ministream
 subprojects/sassc
 tools/icon-development-kit
+.planning/

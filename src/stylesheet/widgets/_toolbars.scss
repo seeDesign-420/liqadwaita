@@ -11,40 +11,77 @@
    * The toolbar logic above generates selectors like:
    *   headerbar button.image-button:not(.raised):not(.suggested-action)...
    * with very high specificity from the :not() chain.
-   * We must match or exceed that specificity here. */
+   * We must match or exceed that specificity here.
+   *
+   * This block is the AUTHORITATIVE source for Mac traffic-light styling
+   * because %toolbar is @extend-ed by headerbar, and the :not() chain
+   * gives it higher specificity than the headerbar windowcontrols block. */
   windowcontrols > button.image-button:not(.raised):not(.suggested-action):not(.destructive-action):not(.opaque) {
-    background-color: transparent;
     border: none;
-    box-shadow: none;
 
-    /* Enforce compact macOS sizing for toolbar window control overrides */
-    min-width: 16px;
-    min-height: 16px;
+    /* Enforce compact macOS traffic-light sizing */
+    min-width: 14px;
+    min-height: 14px;
     padding: 0;
-    margin: 11px 4px;
+    margin: 10px 4px;
     border-radius: 9999px;
+    background-clip: padding-box;
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s;
+
+    /* Hide icon symbols by default — revealed on container hover (WCTL-06) */
+    > image {
+      color: transparent;
+      transition: color 150ms ease-out;
+    }
 
     &, &:hover, &:active, &:checked {
       background-image: none;
-      background-color: transparent;
     }
 
+    /* Base state: transparent for non-close/min/max windowcontrol buttons */
+    background-color: transparent;
+    box-shadow: none;
+
+    /* Mac traffic-light colors with per-button refractive shadow (WCTL-01, WCTL-03, WCTL-05) */
     &.close {
-      &, &:hover, &:active, &:checked { background-color: #ff5f56; }
-      &:hover { background-color: #ff3b30; }
+      background-color: #ff5f56;
+      @include titlebutton-shadow();
+      &:hover { background-color: #f25056; transform: scale(1.05); }
       &:active { background-color: #d71106; }
     }
 
     &.minimize {
-      &, &:hover, &:active, &:checked { background-color: #ffbd2e; }
-      &:hover { background-color: #e0a323; }
+      background-color: #ffbd2e;
+      @include titlebutton-shadow();
+      &:hover { background-color: #e0a323; transform: scale(1.05); }
       &:active { background-color: #c9911e; }
     }
 
     &.maximize {
-      &, &:hover, &:active, &:checked { background-color: #27c93f; }
-      &:hover { background-color: #20a833; }
+      background-color: #27c93f;
+      @include titlebutton-shadow();
+      &:hover { background-color: #20a833; transform: scale(1.05); }
       &:active { background-color: #1a8f29; }
+    }
+
+    /* Backdrop: desaturate all traffic lights to neutral (WCTL-04) */
+    &:backdrop {
+      &.close, &.minimize, &.maximize {
+        background-color: rgba(0, 0, 0, 0.12);
+        @include titlebutton-shadow-backdrop();
+        opacity: 0.8;
+      }
+    }
+  }
+
+  /* Reveal icon symbols when hovering the windowcontrols container (WCTL-06) */
+  windowcontrols:hover > button.image-button:not(.raised):not(.suggested-action):not(.destructive-action):not(.opaque) {
+    > image {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    &:hover > image {
+      color: rgba(0, 0, 0, 0.7);
     }
   }
 

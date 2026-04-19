@@ -17,12 +17,14 @@ $destructive_button_checked_active_color: var(--destructive-bg-color);
 %button,
 button {
   @at-root %button_basic, & {
-    min-height: 24px;
-    min-width: 16px;
-    padding: 5px 10px;
+    min-height: 28px;
+    min-width: 28px;
+    padding: 2px 7px;
     border-radius: $button_radius;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: var(--shadow-refraction-micro);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1);
     font-weight: bold;
     /* Anti-alias: keep background inside the border curve, GPU layer for sub-pixel smoothing */
     background-clip: padding-box;
@@ -69,8 +71,8 @@ button {
     }
 
     &.image-button {
-      min-width: 34px;
-      min-height: 34px;
+      min-width: 28px;
+      min-height: 28px;
       padding: 0;
       border-radius: 9999px;
       /* Pill/circle buttons: explicit padding-box + GPU layer for perfect circle AA */
@@ -85,15 +87,15 @@ button {
     }
 
     &.text-button {
-      min-width: 90px;
-      padding-left: 17px;
-      padding-right: 17px;
+      min-width: 32px;
+      padding-left: 7px;
+      padding-right: 7px;
     }
 
     &.text-button.image-button,
     &.image-text-button {
-      padding-left: 9px;
-      padding-right: 9px;
+      padding-left: 4px;
+      padding-right: 4px;
 
       > box,
       > box > box {
@@ -107,8 +109,8 @@ button {
     }
 
     &.arrow-button {
-      padding-left: 9px;
-      padding-right: 9px;
+      padding-left: 4px;
+      padding-right: 4px;
 
       > box { border-spacing: 4px; }
 
@@ -127,8 +129,8 @@ button {
   // big standalone buttons like in Documents pager
   @at-root %osd_button,
   &.osd {
-    min-width: 32px;
-    min-height: 32px;
+    min-width: 28px;
+    min-height: 28px;
     @include focus-ring($outer: true, $offset: 1px, $transition: $button_transition);
 
     color: inherit;
@@ -329,8 +331,8 @@ button {
 
   @at-root %circular_button,
   &.circular { // force circular button shape
-    min-width: 34px;
-    min-height: 34px;
+    min-width: 28px;
+    min-height: 28px;
     padding: 0;
     border-radius: 9999px;
     background-clip: padding-box;
@@ -340,7 +342,7 @@ button {
 
   @at-root %pill_button,
   &.pill {
-    padding: 10px 32px;
+    padding: 6px 16px;
     border-radius: 9999px;
     background-clip: padding-box;
   }

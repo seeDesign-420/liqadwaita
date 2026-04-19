@@ -1,0 +1,131 @@
+// Liquid Glass App-Specific Overrides
+// --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Shared Placeholders
+// --------------------------------------------------------------------------
+
+%window-glass-transparent {
+  background-color: var(--color-surface-glass-primary);
+  box-shadow: var(--shadow-window-inset), 
+              0 0 14px 5px rgba(0,0,0,0.15), 
+              0 0 5px 2px rgba(0,0,0,0.1);
+  outline: none; // Disable standard single-pixel outline, we use inset shadow
+}
+
+%headerbar-glass-transparent {
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+
+// --------------------------------------------------------------------------
+// 1. Text Editor Overrides
+// --------------------------------------------------------------------------
+
+window.editor-window,
+window.gedit-window,
+window.org-gnome-TextEditor {
+  /* Give the whole window the glass base */
+  @extend %window-glass-transparent;
+
+  headerbar {
+    @extend %headerbar-glass-transparent;
+  }
+
+  /* The actual text editing canvas floats inside */
+  textview.editor {
+    border-radius: 12px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin: 10px var(--spacing-window-canvas, 12px) var(--spacing-window-canvas, 12px) var(--spacing-window-canvas, 12px);
+    background-color: var(--color-canvas-bg);
+    box-shadow: var(--shadow-window-inset);
+    background-clip: padding-box;
+
+    > border,
+    > border > gutter {
+      background-color: transparent;
+    }
+  }
+
+  /* Glass pill for the tab bar */
+  tabbox {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    margin: 2px 4px 2px 0;
+    box-shadow: none;
+  }
+
+  /* Strip extraneous borders/shadows from toolbars */
+  revealer.bottom-bar.raised,
+  revealer.top-bar.raised {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+// --------------------------------------------------------------------------
+// 2. Terminal (Console/KGX) Overrides
+// --------------------------------------------------------------------------
+
+window.terminal-window,
+window.kgx-window {
+  @extend %window-glass-transparent;
+
+  headerbar {
+    @extend %headerbar-glass-transparent;
+  }
+
+  /* Terminal specific Mac titlebuttons inheritance if not covered by %toolbar */
+  .terminal-titlebar > button.image-button {
+    /* Relying on generic .close/.minimize/.maximize mixins or toolbar specificity */
+  }
+
+  /* The actual terminal drawing area floats inside */
+  terminal,
+  vte-terminal {
+    background-color: var(--color-canvas-bg);
+    border-radius: 12px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin: 10px var(--spacing-window-canvas, 12px) var(--spacing-window-canvas, 12px) var(--spacing-window-canvas, 12px);
+    box-shadow: var(--shadow-window-inset);
+  }
+
+  scrolledwindow {
+    background-color: transparent;
+  }
+}
+
+// --------------------------------------------------------------------------
+// 3. Image Viewer (Loupe) Overrides
+// --------------------------------------------------------------------------
+
+window.loupe-window,
+window.image-viewer-window {
+  @extend %window-glass-transparent;
+
+  headerbar {
+    @extend %headerbar-glass-transparent;
+  }
+
+  /* The image display canvas floats inside */
+  overlay-split-view.view {
+    background-color: var(--color-canvas-bg);
+    border-radius: 12px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    margin: 10px var(--spacing-window-canvas, 12px) var(--spacing-window-canvas, 12px) var(--spacing-window-canvas, 12px);
+    box-shadow: var(--shadow-window-inset);
+
+    /* Thumbnails should sit nicely inside the glass/canvas approach */
+    picture.thumbnail {
+      border-radius: 16px;
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+    }
+  }
+}
